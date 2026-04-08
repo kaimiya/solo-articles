@@ -1,0 +1,650 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .article-container * { font-family: 'DM Sans', sans-serif; }
+
+
+  .article-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    overflow-x: clip;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0F6E56;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #0F6E56;
+    border-radius: 1px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    line-height: 1.18;
+    color: #0d0d0c;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .dek {
+    font-size: 18px;
+    line-height: 1.65;
+    color: #5F5E5A;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: #888780;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #E8E6DF;
+    margin-bottom: 36px;
+  }
+
+  .byline-name { color: #1a1a18; font-weight: 500; }
+  .byline-sep { color: #D3D1C7; }
+
+  .body-text {
+    font-size: 17px;
+    line-height: 1.78;
+    color: #2C2C2A;
+    margin-bottom: 24px;
+  }
+
+  /* Stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 36px 0;
+  }
+
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: 1fr; }
+  }
+
+  .stat-card {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 18px 20px;
+    min-width: 0;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #888780;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .stat-value {
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value.down { color: #993C1D !important; }
+  .stat-value.up   { color: #0F6E56 !important; }
+
+  /* Pull quote */
+  .pullquote {
+    border-left: 3px solid #1D9E75;
+    margin: 36px 0;
+    padding: 6px 0 6px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #0d0d0c;
+    font-style: italic;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888780;
+    margin: 44px 0 6px;
+  }
+
+  .chart-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a18;
+    margin-bottom: 4px;
+  }
+
+  .chart-sub {
+    font-size: 13px;
+    color: #888780;
+    margin-bottom: 16px;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #888780;
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-sq {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Chart wrapper — responsive height via aspect ratio */
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-wrap canvas {
+    display: block;
+    width: 100% !important;
+  }
+
+  .footnote {
+    font-size: 12px;
+    color: #B4B2A9;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Tabs */
+  .tab-row {
+    display: flex;
+    border-bottom: 1px solid #E8E6DF;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 18px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: #888780;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .tab-btn:hover { color: #2C2C2A; }
+  .tab-btn.active { color: #0F6E56; border-bottom-color: #0F6E56; font-weight: 500; }
+
+  /* Cities grid */
+  .cities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 20px 0 32px;
+  }
+
+  @media (max-width: 600px) {
+    .cities-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 360px) {
+    .cities-grid { grid-template-columns: 1fr; }
+  }
+
+  .city-row {
+    background: #F5F3EE;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .city-name { font-size: 13px; font-weight: 500; color: #1a1a18; }
+  .city-yoy  { font-size: 12px; font-weight: 500; }
+  .city-yoy.up   { color: #0F6E56 !important; }
+  .city-yoy.down { color: #993C1D !important; }
+
+  /* Source block */
+  .source-block {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 40px;
+  }
+
+  .source-block .source-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888780;
+    margin-bottom: 8px;
+  }
+
+  .source-block p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #5F5E5A;
+  }
+
+  @media (max-width: 480px) {
+    .article-container { padding: 28px 16px 60px; }
+    .body-text { font-size: 16px; }
+    .dek { font-size: 16px; }
+    .pullquote { font-size: 17px; padding-left: 16px; }
+  }
+
+  /* Divider */
+  .section-divider {
+    border: none;
+    border-top: 1px solid #E8E6DF;
+    margin: 40px 0;
+  }
+</style>
+
+<div class="article-container">
+
+  <p class="body-text">For the 12+ million Americans who drive, deliver, and hustle across gig platforms, hourly earnings are volatile aren't just a number — they're the foundation of an entire financial life. Solo tracked 2024-to-2025 earnings shifts across 15 major metropolitan areas. The picture is nuanced: some cities posted meaningful gains, while others saw compression that workers felt in real time.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Cross-metro avg. (all gigs)</div>
+      <div class="stat-value" style="color:#993C1D;">-2.0%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Rideshare avg. YoY</div>
+      <div class="stat-value" style="color:#993C1D;">-2.8%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Food delivery avg. YoY</div>
+      <div class="stat-value" style="color:#993C1D;">-0.9%</div>
+    </div>
+  </div>
+
+  <p class="body-text">Overall, the cross-metro average hourly rate for combined rideshare and food delivery work slipped from $17.41 in 2024 to $17.06 in 2025. But averages obscure a stark geographic divide. Seattle workers earning $25.73/hr still lead the country by a wide margin — thanks in part to Washington state's stronger gig worker protections — while Miami sits at the bottom of the range at $14.89/hr.</p>
+
+  <div class="pullquote">"The top earning Solopreneurs aren't just lucky — they're working in cities where the rules are written differently."</div>
+
+  <div class="section-label">Earnings by metro</div>
+  <div class="chart-title">2025 hourly earnings — rideshare &amp; food delivery combined</div>
+  <div class="chart-sub">Sorted highest to lowest. Green bars indicate year-over-year gains; coral indicates declines.</div>
+  <div class="legend">
+    <span><span class="legend-sq" style="background:#1D9E75;"></span>2025 (gained)</span>
+    <span><span class="legend-sq" style="background:#D85A30;"></span>2025 (declined)</span>
+    <span><span class="legend-sq" style="background:#D3D1C7;"></span>2024 baseline</span>
+  </div>
+  <div class="chart-wrap" style="height: clamp(260px, 50vw, 400px);"><canvas id="chartCombined"></canvas></div>
+  <p class="footnote">* Data includes earnings from ridesharing and food delivery app-based work. Earnings data reflects work completed within each MSA.</p>
+
+  <p class="body-text" style="margin-top: 28px;">Denver and Houston stand out as the sharpest decliners. Denver's combined hourly rate fell nearly 8% year-over-year — the steepest drop among all metros tracked. Houston saw a roughly 4% decline. In contrast, Philadelphia led all markets in gains (+2.1%), with Atlanta and Chicago also posting modest increases.</p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">Rideshare vs. food delivery</div>
+  <div class="chart-title">Comparing the two segments across all 15 metros</div>
+  <div class="chart-sub">Rideshare consistently earns more per hour, but delivery showed more stability in 2025.</div>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('rideshare', this)">Rideshare</button>
+    <button class="tab-btn" onclick="switchTab('delivery', this)">Food delivery</button>
+    <button class="tab-btn" onclick="switchTab('yoy', this)">YoY change</button>
+  </div>
+  <div class="legend" id="segLegend">
+    <span><span class="legend-sq" style="background:#378ADD;"></span>2025 rideshare</span>
+    <span><span class="legend-sq" style="background:#D3D1C7;"></span>2024 baseline</span>
+  </div>
+  <div class="chart-wrap" style="height: clamp(260px, 50vw, 400px);"><canvas id="chartSeg"></canvas></div>
+
+  <p class="body-text" style="margin-top: 28px;">Rideshare work pays noticeably more per hour — the 2025 cross-metro average of $19.93 is roughly $5.75 more than food delivery's $14.19. But food delivery saw smaller losses overall, and cities like San Francisco (+4.8%), Boston (+3.4%), and Philadelphia (+2.5%) actually posted food delivery gains. Rideshare told a harsher story in several of those same markets.</p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">City-by-city snapshot</div>
+  <p class="body-text">Here's how all 15 metros performed year-over-year on the combined metric:</p>
+
+  <div class="cities-grid">
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Atlanta</span><span style="font-size:12px;font-weight:500;color:#0F6E56;">+0.9%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Austin</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-1.8%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Boston</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-1.1%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Chicago</span><span style="font-size:12px;font-weight:500;color:#0F6E56;">+1.0%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Dallas</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-0.1%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Denver</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-7.9%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Houston</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-3.9%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Las Vegas</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-4.4%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Miami</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-0.9%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Philadelphia</span><span style="font-size:12px;font-weight:500;color:#0F6E56;">+2.1%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Phoenix</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-2.0%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">San Diego</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-1.0%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">San Francisco</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-0.1%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Seattle</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-0.9%</span></div>
+  <div style="background:#F5F3EE;border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:13px;font-weight:500;color:#1a1a18;">Washington, DC</span><span style="font-size:12px;font-weight:500;color:#993C1D;">-2.7%</span></div>
+</div>
+
+  <p class="body-text">The data underscores why Solo's suite of financial tools matters for gig workers: earnings volatility is real, and the difference between a city that moved up 2% and one that dropped 8% can mean thousands of dollars annually for a full-time driver or Dasher. Knowing where your city sits — and tracking it over time — is a first step toward making smarter decisions about when, where, and how much to work.</p>
+
+  <p class="body-text">As we enter 2026, multiple new factors are contributing to earnings on major job platforms. First, the impact of autonomous vehicles, which are slowly becoming more prevalent in places like Arizona, California, and Texas, is starting to become clearer. Second, net take home earnings for Solopreneurs are being heavily impacted by the fallout from the Iran war as gas has risen by more than $1 across the country. We'll dive into more detail on these factors as we release the first half earnings for 2026.</p>
+
+  <p class="body-text">Check back in with us as we release the first half earnings for 2026 and go deeper on the impact of this year's major contributors to Solopreneur earnings.</p>
+
+  <div class="source-block">
+    <div class="source-label">About this data</div>
+    <p>Source: Solo Technologies, Inc., <em>2025 vs. 2024 Major Metro Earnings</em>. Data covers rideshare (Uber &amp; Lyft) and food delivery (DoorDash, UberEats &amp; Grubhub) completed within each metropolitan statistical area (MSA).</p>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const metros = ['Atlanta','Austin','Boston','Chicago','Dallas','Denver','Houston','Las Vegas','Miami','Philadelphia','Phoenix','San Diego','San Francisco','Seattle','Washington, DC'];
+const combined24 = [16.28,17.53,20.29,17.31,16.75,19.83,15.79,16.90,15.03,17.23,17.73,19.18,19.42,25.97,18.07];
+const combined25 = [16.43,17.22,20.06,17.49,16.74,18.26,15.18,16.16,14.89,17.60,17.37,18.98,19.40,25.73,17.59];
+const yoyCombined = combined25.map((v,i) => ((v - combined24[i]) / combined24[i] * 100));
+
+const rideshare24 = [19.14,20.85,25.25,20.38,19.96,23.85,18.50,20.06,17.70,19.73,19.76,21.57,23.91,33.73,20.88];
+const rideshare25 = [19.51,20.05,24.26,20.63,19.81,22.43,17.28,18.78,17.28,20.09,19.16,21.86,23.14,34.42,19.75];
+const delivery24  = [13.41,14.22,15.33,14.24,13.53,15.81,13.09,13.74,12.36,14.74,15.70,16.78,14.93,18.22,15.26];
+const delivery25  = [13.36,14.38,15.86,14.35,13.68,14.08,13.07,13.54,12.49,15.10,15.57,16.09,15.65,17.04,15.43];
+
+const GRN='#1D9E75', CORAL='#D85A30', BLU='#378ADD', AMBER='#BA7517', GRAY='#C8C6BD';
+
+const sortIdx = combined25.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).map(x=>x.i);
+const sortedMetros = sortIdx.map(i=>metros[i]);
+const sorted25 = sortIdx.map(i=>combined25[i]);
+const sorted24 = sortIdx.map(i=>combined24[i]);
+
+const commonOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      callbacks: { label: ctx => ' $' + Number(ctx.raw).toFixed(2) + '/hr' }
+    }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: {
+        font: { size: 10, family: "'DM Sans', sans-serif" },
+        color: '#888780',
+        maxRotation: 45,
+        minRotation: 30,
+        autoSkip: false
+      }
+    },
+    y: {
+      grid: { color: 'rgba(136,135,128,0.15)' },
+      ticks: {
+        callback: v => '$' + Number(v).toFixed(0),
+        font: { size: 11, family: "'DM Sans', sans-serif" },
+        color: '#888780'
+      }
+    }
+  }
+};
+
+new Chart(document.getElementById('chartCombined'), {
+  type: 'bar',
+  data: {
+    labels: sortedMetros,
+    datasets: [
+      { label: '2024', data: sorted24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+      { label: '2025', data: sorted25, backgroundColor: sorted25.map((v,i)=> v >= sorted24[i] ? GRN : CORAL), borderRadius: 2, order: 1 }
+    ]
+  },
+  options: {
+    ...commonOpts,
+    plugins: {
+      ...commonOpts.plugins,
+      tooltip: { callbacks: { label: ctx => ' $' + ctx.raw.toFixed(2) + '/hr (' + (ctx.datasetIndex===1?'2025':'2024') + ')' } }
+    }
+  }
+});
+
+let segChart = null;
+
+function buildSegChart(type) {
+  const canvas = document.getElementById('chartSeg');
+  if (segChart) segChart.destroy();
+  const legend = document.getElementById('segLegend');
+
+  if (type === 'rideshare') {
+    legend.innerHTML = sq(BLU)+'2025 rideshare &nbsp;'+sq(GRAY)+'2024 baseline';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [
+          { label: '2024', data: rideshare24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+          { label: '2025', data: rideshare25, backgroundColor: rideshare25.map((v,i)=> v>=rideshare24[i]?BLU:CORAL), borderRadius: 2, order: 1 }
+        ]
+      },
+      options: commonOpts
+    });
+  } else if (type === 'delivery') {
+    legend.innerHTML = sq(AMBER)+'2025 delivery &nbsp;'+sq(GRAY)+'2024 baseline';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [
+          { label: '2024', data: delivery24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+          { label: '2025', data: delivery25, backgroundColor: delivery25.map((v,i)=> v>=delivery24[i]?AMBER:CORAL), borderRadius: 2, order: 1 }
+        ]
+      },
+      options: commonOpts
+    });
+  } else {
+    legend.innerHTML = sq(GRN)+'Gained &nbsp;'+sq(CORAL)+'Declined';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [{
+          label: 'YoY %',
+          data: yoyCombined.map(v => +v.toFixed(2)),
+          backgroundColor: yoyCombined.map(v => v >= 0 ? GRN : CORAL),
+          borderRadius: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.raw > 0 ? '+' : '-') + Math.abs(ctx.raw).toFixed(1) + '%' } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10, family: "'DM Sans', sans-serif" }, color: '#888780', maxRotation: 45, minRotation: 30, autoSkip: false } },
+          y: { grid: { color: 'rgba(136,135,128,0.15)' }, ticks: { callback: v => (v > 0 ? '+' : v < 0 ? '-' : '') + Math.abs(Number(v)).toFixed(0) + '%', font: { size: 11, family: "'DM Sans', sans-serif" }, color: '#888780' } }
+        }
+      }
+    });
+  }
+}
+
+function sq(c) { return '<span style="display:inline-flex;align-items:center;gap:5px;margin-right:12px;font-size:12px;color:#888780;"><span style="width:10px;height:10px;border-radius:2px;background:'+c+';display:inline-block;flex-shrink:0;"></span>'; }
+
+function switchTab(type, el) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  buildSegChart(type);
+}
+
+buildSegChart('rideshare');
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const metros = ['Atlanta','Austin','Boston','Chicago','Dallas','Denver','Houston','Las Vegas','Miami','Philadelphia','Phoenix','San Diego','San Francisco','Seattle','Washington, DC'];
+const combined24 = [16.28,17.53,20.29,17.31,16.75,19.83,15.79,16.90,15.03,17.23,17.73,19.18,19.42,25.97,18.07];
+const combined25 = [16.43,17.22,20.06,17.49,16.74,18.26,15.18,16.16,14.89,17.60,17.37,18.98,19.40,25.73,17.59];
+const yoyCombined = combined25.map((v,i) => ((v - combined24[i]) / combined24[i] * 100));
+
+const rideshare24 = [19.14,20.85,25.25,20.38,19.96,23.85,18.50,20.06,17.70,19.73,19.76,21.57,23.91,33.73,20.88];
+const rideshare25 = [19.51,20.05,24.26,20.63,19.81,22.43,17.28,18.78,17.28,20.09,19.16,21.86,23.14,34.42,19.75];
+const delivery24  = [13.41,14.22,15.33,14.24,13.53,15.81,13.09,13.74,12.36,14.74,15.70,16.78,14.93,18.22,15.26];
+const delivery25  = [13.36,14.38,15.86,14.35,13.68,14.08,13.07,13.54,12.49,15.10,15.57,16.09,15.65,17.04,15.43];
+
+const GRN='#1D9E75', CORAL='#D85A30', BLU='#378ADD', AMBER='#BA7517', GRAY='#C8C6BD';
+
+const sortIdx = combined25.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).map(x=>x.i);
+const sortedMetros = sortIdx.map(i=>metros[i]);
+const sorted25 = sortIdx.map(i=>combined25[i]);
+const sorted24 = sortIdx.map(i=>combined24[i]);
+
+const commonOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      callbacks: { label: ctx => ' $' + Number(ctx.raw).toFixed(2) + '/hr' }
+    }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: {
+        font: { size: 10, family: "'DM Sans', sans-serif" },
+        color: '#888780',
+        maxRotation: 45,
+        minRotation: 30,
+        autoSkip: false
+      }
+    },
+    y: {
+      grid: { color: 'rgba(136,135,128,0.15)' },
+      ticks: {
+        callback: v => '$' + Number(v).toFixed(0),
+        font: { size: 11, family: "'DM Sans', sans-serif" },
+        color: '#888780'
+      }
+    }
+  }
+};
+
+new Chart(document.getElementById('chartCombined'), {
+  type: 'bar',
+  data: {
+    labels: sortedMetros,
+    datasets: [
+      { label: '2024', data: sorted24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+      { label: '2025', data: sorted25, backgroundColor: sorted25.map((v,i)=> v >= sorted24[i] ? GRN : CORAL), borderRadius: 2, order: 1 }
+    ]
+  },
+  options: {
+    ...commonOpts,
+    plugins: {
+      ...commonOpts.plugins,
+      tooltip: { callbacks: { label: ctx => ' $' + ctx.raw.toFixed(2) + '/hr (' + (ctx.datasetIndex===1?'2025':'2024') + ')' } }
+    }
+  }
+});
+
+let segChart = null;
+
+function buildSegChart(type) {
+  const canvas = document.getElementById('chartSeg');
+  if (segChart) segChart.destroy();
+  const legend = document.getElementById('segLegend');
+
+  if (type === 'rideshare') {
+    legend.innerHTML = sq(BLU)+'2025 rideshare &nbsp;'+sq(GRAY)+'2024 baseline';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [
+          { label: '2024', data: rideshare24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+          { label: '2025', data: rideshare25, backgroundColor: rideshare25.map((v,i)=> v>=rideshare24[i]?BLU:CORAL), borderRadius: 2, order: 1 }
+        ]
+      },
+      options: commonOpts
+    });
+  } else if (type === 'delivery') {
+    legend.innerHTML = sq(AMBER)+'2025 delivery &nbsp;'+sq(GRAY)+'2024 baseline';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [
+          { label: '2024', data: delivery24, backgroundColor: GRAY, borderRadius: 2, order: 2 },
+          { label: '2025', data: delivery25, backgroundColor: delivery25.map((v,i)=> v>=delivery24[i]?AMBER:CORAL), borderRadius: 2, order: 1 }
+        ]
+      },
+      options: commonOpts
+    });
+  } else {
+    legend.innerHTML = sq(GRN)+'Gained &nbsp;'+sq(CORAL)+'Declined';
+    segChart = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: metros,
+        datasets: [{
+          label: 'YoY %',
+          data: yoyCombined.map(v => +v.toFixed(2)),
+          backgroundColor: yoyCombined.map(v => v >= 0 ? GRN : CORAL),
+          borderRadius: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + (ctx.raw > 0 ? '+' : '-') + Math.abs(ctx.raw).toFixed(1) + '%' } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10, family: "'DM Sans', sans-serif" }, color: '#888780', maxRotation: 45, minRotation: 30, autoSkip: false } },
+          y: { grid: { color: 'rgba(136,135,128,0.15)' }, ticks: { callback: v => (v > 0 ? '+' : v < 0 ? '-' : '') + Math.abs(Number(v)).toFixed(0) + '%', font: { size: 11, family: "'DM Sans', sans-serif" }, color: '#888780' } }
+        }
+      }
+    });
+  }
+}
+
+function sq(c) { return '<span style="display:inline-flex;align-items:center;gap:5px;margin-right:12px;font-size:12px;color:#888780;"><span style="width:10px;height:10px;border-radius:2px;background:'+c+';display:inline-block;flex-shrink:0;"></span>'; }
+
+function switchTab(type, el) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  buildSegChart(type);
+}
+
+buildSegChart('rideshare');
+</script>
