@@ -1,0 +1,622 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .article-container * { font-family: 'DM Sans', sans-serif; }
+
+  .article-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    overflow-x: clip;
+  }
+
+  .body-text {
+    font-size: 17px;
+    line-height: 1.78;
+    color: #2C2C2A;
+    margin-bottom: 24px;
+  }
+
+  /* Stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 36px 0;
+  }
+
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: 1fr; }
+  }
+
+  .stat-card {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 18px 20px;
+    min-width: 0;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #888780;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .stat-value {
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value.down    { color: #993C1D !important; }
+  .stat-value.up      { color: #0F6E56 !important; }
+  .stat-value.neutral { color: #1a1a18 !important; }
+  .stat-value.up-muted { color: #0F6E56 !important; }
+
+  /* Pull quote */
+  .pullquote {
+    border-left: 3px solid #1D9E75;
+    margin: 36px 0;
+    padding: 6px 0 6px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #0d0d0c;
+    font-style: italic;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888780;
+    margin: 44px 0 6px;
+  }
+
+  .chart-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a18;
+    margin-bottom: 4px;
+  }
+
+  .chart-sub {
+    font-size: 13px;
+    color: #888780;
+    margin-bottom: 16px;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #888780;
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-sq {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Chart wrapper */
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-wrap canvas {
+    display: block;
+    width: 100% !important;
+  }
+
+  .footnote {
+    font-size: 12px;
+    color: #B4B2A9;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Tabs */
+  .tab-row {
+    display: flex;
+    border-bottom: 1px solid #E8E6DF;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 18px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: #888780;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .tab-btn:hover { color: #2C2C2A; }
+  .tab-btn.active { color: #0F6E56; border-bottom-color: #0F6E56; font-weight: 500; }
+
+  /* Cities grid */
+  .cities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 20px 0 32px;
+  }
+
+  @media (max-width: 600px) {
+    .cities-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 360px) {
+    .cities-grid { grid-template-columns: 1fr; }
+  }
+
+  .city-row {
+    background: #F5F3EE;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .city-name { font-size: 13px; font-weight: 500; color: #1a1a18; }
+  .city-yoy  { font-size: 12px; font-weight: 500; }
+  .city-yoy.up   { color: #0F6E56 !important; }
+  .city-yoy.down { color: #993C1D !important; }
+
+  /* Gas callout */
+  .gas-callout-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0 0 28px;
+  }
+
+  @media (max-width: 560px) {
+    .gas-callout-row { grid-template-columns: 1fr; }
+  }
+
+  .gas-card {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 18px 20px;
+    min-width: 0;
+  }
+
+  .gas-card-alert {
+    background: #FEF9F7;
+    border: 1px solid #F5C4B3;
+  }
+
+  .gas-sub {
+    font-size: 12px;
+    color: #888780;
+    margin-top: 4px;
+  }
+
+  /* Net impact block */
+  .net-impact-block {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 24px;
+    margin: 28px 0;
+  }
+
+  .net-impact-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888780;
+    margin-bottom: 16px;
+  }
+
+  .net-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #E8E6DF;
+  }
+
+  .net-row:first-of-type { border-top: 1px solid #E8E6DF; }
+  .net-row-total { border-bottom: none !important; padding-top: 14px; }
+
+  .net-label { font-size: 14px; color: #5F5E5A; }
+  .net-row-total .net-label { font-weight: 600; color: #1a1a18; }
+
+  .net-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+  }
+  .net-val.gain    { color: #0F6E56; }
+  .net-val.loss    { color: #993C1D; }
+  .net-val.neutral { color: #1a1a18; }
+
+  .net-impact-note {
+    font-size: 11px;
+    color: #B4B2A9;
+    line-height: 1.6;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #E8E6DF;
+  }
+
+  /* Source block */
+  .source-block {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 40px;
+  }
+
+  .source-block .source-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888780;
+    margin-bottom: 8px;
+  }
+
+  .source-block p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #5F5E5A;
+  }
+
+  /* Divider */
+  .section-divider {
+    border: none;
+    border-top: 1px solid #E8E6DF;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 480px) {
+    .article-container { padding: 28px 16px 60px; }
+    .body-text { font-size: 16px; }
+    .pullquote { font-size: 17px; padding-left: 16px; }
+  }
+</style>
+
+<div class="article-container">
+
+  <p class="body-text">For the millions of app based workers driving for Uber, Lyft, DoorDash, or UberEats, 2025 brought a quiet but real income squeeze. Hourly rates slipped across most major markets — an average cross-metro decline of 3.3% that added up quickly for full-time gig workers. So far, 2026 data tells a more encouraging story – at least when it comes to hourly wages.</p>
+
+  <p class="body-text">Solo has tracked billions of dollars of income over the past five years, including earnings across 17 metropolitan areas from 2024 through Q1 2026. This year's report shows a broad recovery taking hold, with 16 of 17 metros posting year-over-year gains so far in 2026.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Cross-metro avg. 2025 vs. 2024</div>
+      <div class="stat-value down">−3.3%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Cross-metro avg. 2026 YTD vs. 2025</div>
+      <div class="stat-value up">+6.1%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">2026 YTD cross-metro avg.</div>
+      <div class="stat-value neutral">$17.94</div>
+    </div>
+  </div>
+
+  <p class="body-text">The 2026 YTD cross-metro average of $17.94/hr already eclipses the 2024 baseline of $17.49 — meaning the two-year arc, on average, is a net positive. The gains are being driven by a broad-based rebound in both rideshare (+7.0%) and food delivery (+7.5%), with Miami leading the headline numbers at +20.7% combined. Denver is the lone holdout, slipping another 1.8% in early 2026 after a steep 10.8% drop in 2025 — the most persistent softness in the dataset.</p>
+
+  <div class="pullquote">"Sixteen of 17 metros are up in 2026 — the compression of last year is clearly reversing, though Denver remains the exception worth watching."</div>
+
+  <div class="section-label">Earnings by metro</div>
+  <div class="chart-title">Hourly earnings — rideshare &amp; food delivery combined</div>
+  <div class="chart-sub">Three years of data across 17 metros, sorted by 2026 YTD earnings. Toggle views to compare years or year-over-year shifts.</div>
+
+  <div class="tab-row" id="combinedTabs">
+    <button class="tab-btn active" onclick="switchCombinedTab('all', this)">All years</button>
+    <button class="tab-btn" onclick="switchCombinedTab('yoy2526', this)">2025→2026 change</button>
+    <button class="tab-btn" onclick="switchCombinedTab('yoy2425', this)">2024→2025 change</button>
+  </div>
+  <div class="legend" id="combinedLegend">
+    <span><span class="legend-sq" style="background:#1D9E75;"></span>2026 YTD (gained)</span>
+    <span><span class="legend-sq" style="background:#D85A30;"></span>2026 YTD (declined)</span>
+    <span><span class="legend-sq" style="background:#A8A49C;"></span>2025</span>
+    <span><span class="legend-sq" style="background:#D3D1C7;"></span>2024</span>
+  </div>
+  <div class="chart-wrap" style="height: clamp(280px, 55vw, 460px);"><canvas id="chartCombined"></canvas></div>
+  <p class="footnote">* Combined rideshare + food delivery hourly earnings. Sorted by 2026 YTD rate. 2026 figures are year-to-date through Q1.</p>
+
+  <p class="body-text" style="margin-top: 28px;">Seattle holds its place at the top of the table at $21.70/hr — a premium that reflects Washington State's stronger gig worker protections — followed by San Francisco ($20.34) and San Diego ($19.55). New York City, entering this dataset for the first time, ranks fifth overall at $18.49/hr. Its rideshare segment stands out: Uber and Lyft drivers in New York averaged $28.82/hr in early 2026, the second-highest rideshare rate in the country behind only Seattle's $35.90.</p>
+
+  <p class="body-text">At the bottom of the table, Houston ($15.26) and Atlanta ($15.81) remain the most challenging markets, though both posted positive movement in 2026. Denver ($17.10) is the notable outlier — its two-year combined decline now exceeds 12%, the steepest sustained drop in the dataset.</p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">Rideshare vs. food delivery</div>
+  <div class="chart-title">Segment-level earnings across all 17 metros</div>
+  <div class="chart-sub">Rideshare commands a significant premium. In 2026, food delivery is gaining ground at a faster rate.</div>
+
+  <div class="tab-row" id="segTabs">
+    <button class="tab-btn active" onclick="switchSegTab('rideshare', this)">Rideshare</button>
+    <button class="tab-btn" onclick="switchSegTab('delivery', this)">Food delivery</button>
+    <button class="tab-btn" onclick="switchSegTab('gap', this)">Segment gap</button>
+  </div>
+  <div class="legend" id="segLegend">
+    <span><span class="legend-sq" style="background:#378ADD;"></span>2026 YTD rideshare</span>
+    <span><span class="legend-sq" style="background:#A8A49C;"></span>2025</span>
+    <span><span class="legend-sq" style="background:#D3D1C7;"></span>2024</span>
+  </div>
+  <div class="chart-wrap" style="height: clamp(280px, 55vw, 460px);"><canvas id="chartSeg"></canvas></div>
+
+  <p class="body-text" style="margin-top: 28px;">Rideshare continues to pay more per hour — a 2026 cross-metro average of $23.15/hr versus $15.83/hr for food delivery. But one of the more striking findings in this year's data is that food delivery is recovering faster: delivery earnings rose 7.5% cross-metro in early 2026 versus rideshare's 7.0%. For workers who do both, the platform mix may matter less than it did a year ago.</p>
+
+  <p class="body-text">Miami's rideshare rebound is the most dramatic data point in the entire dataset. After falling to $17.22/hr in 2025, Miami rideshare earnings jumped to $22.27/hr in 2026 — a 29.3% single-year gain (so far) that lifted the city from the bottom quartile of rideshare markets to near the middle. Los Angeles, new to this report, lands in the mid-table at $17.99/hr combined, with a food delivery rate of $16.11/hr that's notably below its rideshare average of $22.06/hr — a platform gap that LA-based gig workers may want to factor into their scheduling decisions.</p>
+
+  <p class="body-text">It's important to note that every city has its own seasonality, and some places (like Miami) will see a slower summer season relative to their more northern counterparts.</p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">City-by-city snapshot</div>
+  <div class="chart-title">2026 YTD — all 17 metros</div>
+  <p class="body-text">Here's where every metro stands year-to-date in 2026, with movement versus both 2025 and the 2024 baseline:</p>
+
+  <div class="cities-grid" id="cityGrid"></div>
+
+  <p class="body-text">The geographic spread remains significant — Seattle earns $6.44 more per hour than Houston on a combined basis. But the 2026 recovery has compressed the year-over-year gaps that defined 2025. For full-time gig workers, a 6% hourly increase translates to roughly $2,400 more annually at 40 hours per week. That's a meaningful number — and it compounds further for workers who use earnings data to choose their highest-value hours and platforms.</p>
+
+  <hr class="section-divider">
+
+  <div class="section-label">The hidden headwind</div>
+  <div class="chart-title">Rising gas prices are eating into the 2026 earnings recovery</div>
+  <p class="body-text" style="margin-bottom: 28px;">Gross hourly rates are up — but gig workers pay their own fuel bills. And in 2026, those bills are rising fast.</p>
+
+  <div class="gas-callout-row">
+    <div class="gas-card">
+      <div class="stat-label">Nat'l avg gas — 2024</div>
+      <div class="stat-value neutral">$3.30</div>
+      <div class="gas-sub">per gallon (annual avg)</div>
+    </div>
+    <div class="gas-card">
+      <div class="stat-label">Nat'l avg gas — 2025</div>
+      <div class="stat-value up-muted">$3.10</div>
+      <div class="gas-sub">−6.3% vs 2024</div>
+    </div>
+    <div class="gas-card gas-card-alert">
+      <div class="stat-label">Nat'l avg gas — Q1 2026</div>
+      <div class="stat-value down">$3.84</div>
+      <div class="gas-sub">+23.9% vs Q4 2025 low</div>
+    </div>
+  </div>
+
+  <p class="body-text">Gas prices followed a favorable path in 2025 — the national average fell to $3.10/gal, the lowest annual average since 2021, and briefly dipped below $3.00 in December for the first time in years. That tailwind helped soften the blow of last year's earnings compression. In 2026, it reversed. The BLS CPI pegged regular unleaded at $3.84/gal in March 2026, driven by the Iran War and renewed volatility in global crude markets. The 2026 YTD average of $3.23/gal obscures the Q1 spike — the period that overlaps directly with the earnings data in this report.</p>
+
+  <div class="pullquote">"Gas fell to a four-year low in late 2025, then surged nearly 24% by Q1 2026. For drivers who didn't see it coming, the earnings recovery may already be spent at the pump."</div>
+
+  <p class="body-text">The math is worth spelling out. A full-time gig worker driving roughly 25,000 business miles annually in a typical sedan (averaging ~28 MPG) burns around 900 gallons of gas per year. At Q1 2026 prices of $3.84/gal, that's approximately $3,430 in annual fuel costs — up about $660 from 2025's low. The cross-metro earnings gain over that same period amounts to roughly $2,100 in additional gross income. The result: for many workers, net take-home in 2026 is likely flat to down compared to 2025, even as the headline hourly numbers improve.</p>
+
+  <div class="net-impact-block">
+    <div class="net-impact-title">Estimated annual impact — full-time gig worker</div>
+    <div class="net-row">
+      <span class="net-label">Gross earnings gain (2025→2026 avg)</span>
+      <span class="net-val gain">+$2,136</span>
+    </div>
+    <div class="net-row">
+      <span class="net-label">Fuel cost increase at Q1 2026 prices</span>
+      <span class="net-val loss">−$661</span>
+    </div>
+    <div class="net-row net-row-total">
+      <span class="net-label">Estimated net change</span>
+      <span class="net-val neutral">≈ +$1,475</span>
+    </div>
+    <div class="net-impact-note">Based on 40 hrs/week, cross-metro avg hourly rates, 25,000 mi/year, 28 MPG. Fuel cost uses Q1 2026 BLS avg of $3.84/gal vs. 2025 avg of $3.10/gal. Does not include vehicle depreciation, insurance, maintenance, or self-employment taxes.</div>
+  </div>
+
+  <p class="body-text">The $1,475 net figure assumes gas stabilizes — it doesn't account for continued price escalation, which as of early April 2026 shows no signs of cooling. Nor does it factor in the other costs gig workers absorb as independent contractors: accelerated vehicle depreciation, commercial insurance premiums, quarterly self-employment taxes, and the platform fees that reduce gross pay before it ever hits a bank account. When all of those are tallied, the true hourly rate for many gig workers can run 30–40% below the gross figure.</p>
+
+  <p class="body-text">So far in 2026, Solopreneurs may enjoy seeing their pay broadly increasing, but just like airlines and other industries, their take home pay is showing a more muted recovery.</p>
+
+  <p class="body-text">This is precisely the context Solo's tools are built for. Tracking gross earnings is easy — every platform shows you that number. Understanding what you actually keep requires logging every mile, categorizing every expense, and knowing which hours and jobs generate the best net return for your time. For gig workers in 2026, the difference between a worker who manages to that number and one who doesn't may well determine whether this year's recovery is real or illusory.</p>
+
+  <div class="source-block">
+    <div class="source-label">About this data</div>
+    <p style="margin-bottom: 14px;">Source: Solo Technologies, Inc., <em>2024–2026 Major Metro Gig Earnings</em>. Data covers rideshare (Uber &amp; Lyft) and food delivery (DoorDash, UberEats &amp; Grubhub) completed within each metropolitan statistical area (MSA). 2026 figures are year-to-date through Q1 2026. Cross-metro averages are unweighted means across all 17 metros.</p>
+    <div style="border-top: 1px solid #E8E6DF; padding-top: 14px;">
+      <div style="font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#888780;margin-bottom:8px;">Gas price sources</div>
+      <p style="margin-bottom: 6px;"><strong>2024 &amp; 2025 annual averages:</strong> U.S. Energy Information Administration (EIA), <em>Gasoline and Diesel Fuel Update</em>. Regular grade, all formulations, national retail average. 2024: $3.30/gal; 2025: $3.10/gal. <a href="https://www.eia.gov/petroleum/gasdiesel/" target="_blank" style="color:#0F6E56;">eia.gov/petroleum/gasdiesel</a></p>
+      <p style="margin-bottom: 6px;"><strong>Q1 2026 (March):</strong> U.S. Bureau of Labor Statistics, Consumer Price Index — Average Price: Gasoline, Unleaded Regular, U.S. City Average (Series APU000074714). March 2026: $3.843/gal. <a href="https://fred.stlouisfed.org/series/APU000074714" target="_blank" style="color:#0F6E56;">fred.stlouisfed.org</a></p>
+      <p><strong>2026 YTD average &amp; weekly data:</strong> Finder.com analysis of EIA weekly retail price data. 2026 YTD average: $3.23/gal as of early April 2026. <a href="https://www.finder.com/economics/gas-prices" target="_blank" style="color:#0F6E56;">finder.com/economics/gas-prices</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const metros = ['Atlanta','Austin','Boston','Chicago','Dallas','Denver','Houston','Las Vegas','Los Angeles','Miami','New York','Philadelphia','Phoenix','San Diego','San Francisco','Seattle','Washington, DC'];
+
+const total24 = [15.2992,16.7675,19.1430,16.6040,15.7490,19.5242,14.8477,16.7136,17.4015,14.6294,18.6608,16.6257,17.1293,18.7827,20.5214,22.1006,16.8435];
+const total25 = [15.2352,16.1482,18.7113,16.2948,15.4983,17.4136,14.1659,15.5459,17.3270,14.2251,17.5070,16.5636,16.6729,18.8290,19.9539,21.0478,16.4665];
+const total26 = [15.8069,17.7124,19.5015,16.9365,16.7085,17.0987,15.2604,16.4769,17.9975,17.1738,18.4905,18.2564,18.2314,19.5471,20.3427,21.7026,17.8168];
+
+const rs24 = [19.1498,20.8724,25.3023,20.4229,19.9765,23.8545,18.5458,20.0828,20.0825,17.6843,30.5686,19.7551,19.8524,21.5907,24.1127,34.1410,20.8925];
+const rs25 = [19.4704,19.9818,24.2820,20.6055,19.6807,22.4525,17.2960,18.7412,20.5331,17.2205,28.5002,20.0547,19.3078,21.8026,23.3717,34.9357,19.7670];
+const rs26 = [19.8229,21.5528,25.2018,21.0997,20.9808,22.6958,19.4482,20.4743,22.0605,22.2674,28.8176,22.3713,22.0586,23.1263,24.1868,35.8986,21.5497];
+
+const fd24 = [13.4158,14.2134,15.2820,14.2455,13.5260,15.8807,13.0791,13.7238,15.5095,12.3793,13.9858,14.8117,15.7149,16.7785,14.9698,18.1689,15.2700];
+const fd25 = [13.3703,14.3729,15.8093,14.4090,13.6771,14.2092,13.0685,13.5397,15.6963,12.5399,14.5620,15.2121,15.5398,16.1096,15.6541,16.9876,15.4311];
+const fd26 = [14.3211,16.2535,16.9674,15.5344,15.1638,14.0545,14.0934,14.6766,16.1080,14.5573,16.4534,17.0322,16.8542,16.5051,16.5572,17.0791,16.8385];
+
+const GRN='#1D9E75', CORAL='#D85A30', BLU='#378ADD', AMBER='#BA7517', GRAY='#D3D1C7', GRAY2='#A8A49C';
+const FF = "'DM Sans', sans-serif";
+
+const sortIdx = total26.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v).map(x=>x.i);
+const sm = sortIdx.map(i=>metros[i]);
+const s = arr => sortIdx.map(i=>arr[i]);
+
+const commonOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { callbacks: { label: ctx => ' $' + Number(ctx.raw).toFixed(2) + '/hr' } }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { font: { size: 10, family: FF }, color: '#888780', maxRotation: 45, minRotation: 30, autoSkip: false }
+    },
+    y: {
+      grid: { color: 'rgba(136,135,128,0.15)' },
+      ticks: { callback: v => '$' + Number(v).toFixed(0), font: { size: 11, family: FF }, color: '#888780' }
+    }
+  }
+};
+
+// ── COMBINED CHART ──
+let combinedChart;
+function buildCombinedChart(mode) {
+  const ctx = document.getElementById('chartCombined');
+  if (combinedChart) combinedChart.destroy();
+  const s26 = s(total26), s25 = s(total25), s24 = s(total24);
+  const legendEl = document.getElementById('combinedLegend');
+  let datasets, isYoy = false;
+
+  if (mode === 'all') {
+    datasets = [
+      { label: '2024', data: s24, backgroundColor: GRAY, borderRadius: 2, order: 3 },
+      { label: '2025', data: s25, backgroundColor: GRAY2, borderRadius: 2, order: 2 },
+      { label: '2026', data: s26, backgroundColor: s26.map((v,i) => v >= s25[i] ? GRN : CORAL), borderRadius: 2, order: 1 }
+    ];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${GRN};"></span>2026 YTD (gained)</span><span><span class="legend-sq" style="background:${CORAL};"></span>2026 YTD (declined)</span><span><span class="legend-sq" style="background:${GRAY2};"></span>2025</span><span><span class="legend-sq" style="background:${GRAY};"></span>2024</span>`;
+  } else if (mode === 'yoy2526') {
+    isYoy = true;
+    const yoy = s26.map((v,i) => +((v - s25[i]) / s25[i] * 100).toFixed(2));
+    datasets = [{ label: '2025→2026 %', data: yoy, backgroundColor: yoy.map(v => v >= 0 ? GRN : CORAL), borderRadius: 2 }];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${GRN};"></span>Gained</span><span><span class="legend-sq" style="background:${CORAL};"></span>Declined</span>`;
+  } else {
+    isYoy = true;
+    const yoy = s25.map((v,i) => +((v - s24[i]) / s24[i] * 100).toFixed(2));
+    datasets = [{ label: '2024→2025 %', data: yoy, backgroundColor: yoy.map(v => v >= 0 ? GRN : CORAL), borderRadius: 2 }];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${GRN};"></span>Gained</span><span><span class="legend-sq" style="background:${CORAL};"></span>Declined</span>`;
+  }
+
+  combinedChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: sm, datasets },
+    options: {
+      ...commonOpts,
+      plugins: { ...commonOpts.plugins, tooltip: { callbacks: { label: ctx => isYoy ? ' ' + (ctx.raw > 0 ? '+' : '') + ctx.raw.toFixed(1) + '%' : ' $' + ctx.raw.toFixed(2) + '/hr' } } },
+      scales: { ...commonOpts.scales, y: { ...commonOpts.scales.y, ticks: { callback: v => isYoy ? (v > 0 ? '+' : '') + v.toFixed(0) + '%' : '$' + v, font: { size: 11, family: FF }, color: '#888780' } } }
+    }
+  });
+}
+buildCombinedChart('all');
+
+function switchCombinedTab(mode, btn) {
+  document.getElementById('combinedTabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildCombinedChart(mode);
+}
+
+// ── SEGMENT CHART ──
+let segChart;
+function buildSegChart(type) {
+  const ctx = document.getElementById('chartSeg');
+  if (segChart) segChart.destroy();
+  const legendEl = document.getElementById('segLegend');
+  const isGap = type === 'gap';
+
+  const rsIdx = rs26.map((v,i) => ({v,i})).sort((a,b) => b.v - a.v).map(x => x.i);
+  const sm2 = rsIdx.map(i => metros[i]);
+  const s2 = arr => rsIdx.map(i => arr[i]);
+
+  let datasets;
+  if (type === 'rideshare') {
+    datasets = [
+      { label: '2024', data: s2(rs24), backgroundColor: GRAY, borderRadius: 2, order: 3 },
+      { label: '2025', data: s2(rs25), backgroundColor: GRAY2, borderRadius: 2, order: 2 },
+      { label: '2026', data: s2(rs26), backgroundColor: BLU, borderRadius: 2, order: 1 }
+    ];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${BLU};"></span>2026 YTD rideshare</span><span><span class="legend-sq" style="background:${GRAY2};"></span>2025</span><span><span class="legend-sq" style="background:${GRAY};"></span>2024</span>`;
+  } else if (type === 'delivery') {
+    datasets = [
+      { label: '2024', data: s2(fd24), backgroundColor: GRAY, borderRadius: 2, order: 3 },
+      { label: '2025', data: s2(fd25), backgroundColor: GRAY2, borderRadius: 2, order: 2 },
+      { label: '2026', data: s2(fd26), backgroundColor: AMBER, borderRadius: 2, order: 1 }
+    ];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${AMBER};"></span>2026 YTD delivery</span><span><span class="legend-sq" style="background:${GRAY2};"></span>2025</span><span><span class="legend-sq" style="background:${GRAY};"></span>2024</span>`;
+  } else {
+    const gap24 = s2(rs24).map((v,i) => +(v - s2(fd24)[i]).toFixed(2));
+    const gap25 = s2(rs25).map((v,i) => +(v - s2(fd25)[i]).toFixed(2));
+    const gap26 = s2(rs26).map((v,i) => +(v - s2(fd26)[i]).toFixed(2));
+    datasets = [
+      { label: 'Gap 2024', data: gap24, backgroundColor: GRAY, borderRadius: 2 },
+      { label: 'Gap 2025', data: gap25, backgroundColor: GRAY2, borderRadius: 2 },
+      { label: 'Gap 2026', data: gap26, backgroundColor: BLU, borderRadius: 2 }
+    ];
+    legendEl.innerHTML = `<span><span class="legend-sq" style="background:${BLU};"></span>2026 gap</span><span><span class="legend-sq" style="background:${GRAY2};"></span>2025 gap</span><span><span class="legend-sq" style="background:${GRAY};"></span>2024 gap</span>`;
+  }
+
+  segChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: sm2, datasets },
+    options: {
+      ...commonOpts,
+      plugins: { ...commonOpts.plugins, tooltip: { callbacks: { label: ctx => isGap ? ' $' + ctx.raw.toFixed(2) + ' gap' : ' $' + ctx.raw.toFixed(2) + '/hr' } } }
+    }
+  });
+}
+buildSegChart('rideshare');
+
+function switchSegTab(type, btn) {
+  document.getElementById('segTabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildSegChart(type);
+}
+
+// ── CITY GRID ──
+(function buildCityGrid() {
+  const grid = document.getElementById('cityGrid');
+  sortIdx.map(i => ({
+    name: metros[i],
+    rate26: total26[i],
+    rate25: total25[i],
+    rate24: total24[i]
+  })).forEach(c => {
+    const yoy2526 = (c.rate26 - c.rate25) / c.rate25 * 100;
+    const yoy2425 = (c.rate25 - c.rate24) / c.rate24 * 100;
+    const div = document.createElement('div');
+    div.className = 'city-row';
+    div.innerHTML = `
+      <span class="city-name">${c.name}</span>
+      <span style="text-align:right;">
+        <div class="city-yoy ${yoy2526 >= 0 ? 'up' : 'down'}">${yoy2526 >= 0 ? '+' : ''}${yoy2526.toFixed(1)}% vs '25</div>
+        <div class="city-yoy ${yoy2425 >= 0 ? 'up' : 'down'}" style="margin-top:2px;">${yoy2425 >= 0 ? '+' : ''}${yoy2425.toFixed(1)}% vs '24</div>
+      </span>`;
+    grid.appendChild(div);
+  });
+})();
+</script>
