@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Shouldn't Be Something Solopreneurs Have to Give Up — Solo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #f9f8f5;
+      --light-gray: #f2f0eb;
+      --mid-gray: #d4d2cb;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6a65;
+      --text-muted: #9b9992;
+      --green: #2D7DD2;
+      --green-light: #e8f2fb;
+      --green-dark: #185FA5;
+      --blue-light: #e8f2fb;
+      --blue-text: #185FA5;
+      --border: rgba(26,26,24,0.1);
+      --border-strong: rgba(26,26,24,0.18);
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    .page-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .body-copy p {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-primary);
+      margin-bottom: 1.4rem;
+    }
+
+    h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin: 2.75rem 0 0.85rem;
+      color: var(--text-primary);
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 2rem 0 2.5rem;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-card .lbl {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .callout {
+      border-left: 3px solid var(--green);
+      background: var(--green-light);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin: 2rem 0;
+    }
+    .callout p {
+      font-size: 16px !important;
+      color: var(--green-dark) !important;
+      margin: 0 !important;
+      font-style: italic;
+    }
+
+    .partner-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1.75rem 0;
+    }
+    .partner-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .partner-info h4 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .partner-info p {
+      font-size: 13px !important;
+      color: var(--text-secondary) !important;
+      line-height: 1.55 !important;
+      margin: 0 !important;
+    }
+
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 1.25rem 0 2rem;
+    }
+    .benefit-item {
+      background: var(--light-gray);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .benefit-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    .pull-quote {
+      border-top: 2px solid var(--green);
+      border-bottom: 1px solid var(--border);
+      margin: 2.25rem 0;
+      padding: 1.5rem 0;
+    }
+    .pull-quote blockquote {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text-primary);
+      margin: 0 0 1rem;
+    }
+    .pull-quote-attr {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pull-quote-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--green-dark);
+      flex-shrink: 0;
+    }
+    .pull-quote-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .pull-quote-title { font-size: 12px; color: var(--text-muted); }
+
+    .cta-block {
+      background: var(--text-primary);
+      border-radius: 14px;
+      padding: 2.25rem 2rem;
+      margin: 3rem 0 0;
+      text-align: center;
+    }
+    .cta-block p {
+      color: rgba(255,255,255,0.65);
+      font-size: 15px;
+      margin-bottom: 1.5rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--green);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+    .cta-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .cta-block .cta-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 0.65rem;
+      display: block;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .footer-series {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .footer-tagline {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--text-primary);
+    }
+    .footer-tagline em { color: var(--green); font-style: italic; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-wrap > * { animation: fadeUp 0.5s ease both; }
+    h1     { animation-delay: 0.05s; }
+    .meta  { animation-delay: 0.1s; }
+    .stat-strip { animation-delay: 0.15s; }
+
+    @media (max-width: 520px) {
+      .stat-strip { grid-template-columns: 1fr; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      nav { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <div class="body-copy">
+      <p>
+        There's a gap in the gig economy that doesn't get talked about enough. It's not taxes, though those are hard. It's not income volatility, though that's real too. It's healthcare — specifically, the reality that most 1099 workers are navigating the healthcare system completely alone.
+      </p>
+      <p>
+        No employer plan. No HR department to call. Just you, the marketplace, and a bill that keeps going up.
+      </p>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-card">
+        <div class="num">52%</div>
+        <div class="lbl">of solopreneurs delayed or skipped care in the past year</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">70M+</div>
+        <div class="lbl">Americans working independently without employer benefits</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">$0</div>
+        <div class="lbl">cost for visits, prescriptions &amp; therapy through River Health</div>
+      </div>
+    </div>
+
+    <div class="body-copy">
+      <h3>The ACA cliff nobody warned you about</h3>
+      <p>
+        For years, ACA subsidies helped soften the blow of individual health insurance costs. But many of those enhanced subsidies have expired — and for a lot of solopreneurs, that meant premiums jumped sharply with little warning. For workers already managing unpredictable income, that's not just a financial burden. It's the kind of thing that pushes people into a difficult choice: pay more than they can afford, or go without.
+      </p>
+      <p>
+        That choice is not okay. And it's exactly why we made this partnership happen.
+      </p>
+
+      <hr />
+
+      <h3>Introducing Solo + River Health</h3>
+      <p>
+        Today, we're excited to announce that Solo has partnered with <strong>River Health</strong> to bring affordable, real healthcare access to solopreneurs on our platform.
+      </p>
+
+      <div class="partner-card">
+        <div class="partner-badge" style="background:#fff; padding: 10px; width: 80px; height: 52px; display:flex; align-items:center; justify-content:center;"><svg width="60" height="21" viewBox="0 0 85 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8282 10.2627V14.8875H10.4273C8.81944 14.8875 7.55352 15.3161 6.63558 16.1704C5.71464 17.0246 5.25567 18.2685 5.25567 19.902V29.5024H0V10.2597H4.82369V12.5526C6.17061 10.8681 7.9375 10.0259 10.1154 10.0259C10.7633 10.0289 11.3333 10.1068 11.8282 10.2627Z" fill="#303030"/><path d="M15.3291 3.26707C15.3291 2.3349 15.6531 1.5556 16.301 0.935161C16.949 0.31172 17.7409 0 18.6739 0C19.6068 0 20.4048 0.31172 21.0677 0.932163C21.7277 1.5556 22.0607 2.33191 22.0607 3.26407C22.0607 4.17226 21.7307 4.93657 21.0677 5.55701C20.4078 6.17746 19.6098 6.48918 18.6739 6.48918C17.7409 6.48918 16.949 6.17746 16.301 5.55701C15.6531 4.93657 15.3291 4.17226 15.3291 3.26707ZM16.0671 29.5055V10.2628H21.3197V29.5055H16.0671Z" fill="#303030"/><path d="M40.6172 10.2627H46.1819L36.6515 29.97H34.8996L25.3662 10.2627H30.8919L35.7545 21.1459L40.6172 10.2627Z" fill="#303030"/><path d="M67.1476 21.6527H53.6485C53.9604 22.8727 54.5874 23.8108 55.5353 24.4702C56.4833 25.1326 57.6562 25.4623 59.0571 25.4623C60.95 25.4623 62.7379 24.8149 64.4268 23.5201L66.6046 27.0959C64.2948 29.0141 61.7269 29.9733 58.9011 29.9733C55.9433 30.0242 53.4355 29.0591 51.3716 27.0779C49.3107 25.0967 48.3028 22.7048 48.3568 19.9053C48.3058 17.1328 49.2777 14.7499 51.2756 12.7537C53.2735 10.7575 55.6583 9.7864 58.4331 9.83735C61.079 9.83735 63.2508 10.6916 64.9487 12.4031C66.6466 14.1145 67.4986 16.2396 67.4986 18.7783C67.4986 19.7105 67.3816 20.6666 67.1476 21.6527ZM53.6485 17.9601H62.4019C62.3779 16.7941 61.9669 15.856 61.178 15.1426C60.389 14.4292 59.4081 14.0726 58.2412 14.0726C57.1252 14.0726 56.1533 14.4232 55.3223 15.1216C54.4914 15.823 53.9334 16.7671 53.6485 17.9601Z" fill="#303030"/><path d="M84.3815 10.2627V14.8875H82.9806C81.3727 14.8875 80.1067 15.3161 79.1858 16.1704C78.2649 17.0246 77.8059 18.2685 77.8059 19.902V29.5024H72.5532V10.2597H77.3769V12.5526C78.7238 10.8681 80.4877 10.0259 82.6686 10.0259C83.3195 10.0289 83.8895 10.1068 84.3815 10.2627Z" fill="#303030"/></svg></div>
+        <div class="partner-info">
+          <h4>River Health</h4>
+          <p>Transparent, flat-rate healthcare at $50/month and including unlimited virtual primary care, in-person doctor visits, prescriptions, behavioral health, labs, and more — with no hidden fees and no employer required.</p>
+        </div>
+      </div>
+
+      <p>
+        River Health was built on a simple idea: healthcare should be predictable, accessible, and — most importantly — actually usable. That's exactly what solopreneurs need.
+      </p>
+
+      <p>What's included through River Health:</p>
+
+      <div class="benefit-grid">
+        <div class="benefit-item"><span class="benefit-dot"></span>Unlimited virtual primary care</div>
+        <div class="benefit-item"><span class="benefit-dot"></span>In-person doctor's office visits</div>
+        <div class="benefit-item"><span class="benefit-dot"></span>7,000+ free prescriptions</div>
+        <div class="benefit-item"><span class="benefit-dot"></span>Behavioral health &amp; therapy</div>
+        <div class="benefit-item"><span class="benefit-dot"></span>Free preventative care</div>
+        <div class="benefit-item"><span class="benefit-dot"></span>25,000+ partner clinics nationwide</div>
+      </div>
+
+      <div class="callout">
+        <p>River Health isn't a discount card or a workaround — it's a real healthcare benefit, built for people who work for themselves.</p>
+      </div>
+
+      <div class="pull-quote">
+        <blockquote>"Solopreneurs have been underserved for too long. River Health was built to change that and partnering with Solo means we can reach the workers who need this most, on a platform they already trust."</blockquote>
+        <div class="pull-quote-attr">
+          <div>
+            <div class="pull-quote-name">Kobby Amoah</div>
+            <div class="pull-quote-title">CEO, River Health</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>This is what the Year of the Solopreneur is actually about</h3>
+      <p>
+        When we declared 2026 the Year of the Solopreneur, we meant something specific by it. It's not a marketing tagline. It's a commitment to close the gaps that have kept independent workers from having the same stability and support that traditional employees take for granted.
+      </p>
+      <p>
+        Taxes were gap one. Healthcare is gap two. There's more to come.
+      </p>
+      <p>
+        The tools to earn more, the tools to keep more, the tools to actually take care of yourself — that's what we're building. Because doing great work shouldn't mean choosing between your health and your livelihood.
+      </p>
+
+      <div class="pull-quote">
+        <blockquote>"Independent workers are the backbone of the modern economy — they deserve the same access to quality healthcare that anyone else gets. This partnership is about closing that gap, and we're proud to be building it alongside River Health."</blockquote>
+        <div class="pull-quote-attr">
+          <div>
+            <div class="pull-quote-name">Bryce Bennett</div>
+            <div class="pull-quote-title">Founder &amp; CEO, Solo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <span class="cta-title">Access healthcare through River Health</span>
+      <p>Solo members can now activate their River Health benefit directly from the Solo app. No employer needed.</p>
+      <a href="https://app.helloriver.com/join" class="cta-btn">Activate your plan →</a>
+    </div>
+
+  </div>
+
+
+</body>
+</html>
