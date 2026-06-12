@@ -1,0 +1,624 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .article-container * { font-family: 'DM Sans', sans-serif; }
+
+  .article-container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    overflow-x: clip;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1D4ED8;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #1D4ED8;
+    border-radius: 1px;
+  }
+
+  .article-container h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    line-height: 1.18;
+    color: #0d0d0c;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .dek {
+    font-size: 18px;
+    line-height: 1.65;
+    color: #5F5E5A;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .byline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: #888780;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #E8E6DF;
+    margin-bottom: 36px;
+  }
+
+  .byline-name { color: #1a1a18; font-weight: 500; }
+  .byline-sep  { color: #D3D1C7; }
+
+  .body-text {
+    font-size: 17px;
+    line-height: 1.78;
+    color: #2C2C2A;
+    margin-bottom: 24px;
+  }
+
+  .pullquote {
+    border-left: 3px solid #2563EB;
+    background: #EFF6FF;
+    border-radius: 0 8px 8px 0;
+    margin: 36px 0;
+    padding: 16px 20px 16px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    line-height: 1.5;
+    color: #1D4ED8;
+    font-style: italic;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888780;
+    margin: 44px 0 6px;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid #E8E6DF;
+    margin: 40px 0;
+  }
+
+  /* Stat row */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 36px 0;
+  }
+
+  @media (max-width: 600px) { .stat-row { grid-template-columns: 1fr; } }
+
+  .stat-card {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 18px 20px;
+    min-width: 0;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: #888780;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .stat-value {
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #2563EB;
+  }
+
+  /* Comparison graphic */
+  .comparison-wrap {
+    margin: 36px 0;
+    background: #F5F3EE;
+    border-radius: 16px;
+    padding: 28px 24px 20px;
+  }
+
+  .comparison-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888780;
+    margin-bottom: 16px;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    gap: 0;
+  }
+
+  .comp-panel {
+    border-radius: 12px;
+    padding: 20px 18px;
+  }
+
+  .comp-panel.before {
+    background: #1a1a18;
+  }
+
+  .comp-panel.after {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .comp-panel-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .comp-panel.before .comp-panel-label { color: rgba(255,255,255,0.3); }
+  .comp-panel.after  .comp-panel-label { color: #2563EB; }
+
+  .comp-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+  }
+
+  .comp-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .comp-panel.before .comp-photo img { filter: grayscale(40%) brightness(0.6); }
+
+  .comp-title {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 5px;
+  }
+
+  .comp-panel.before .comp-title { color: #fff; }
+  .comp-panel.after  .comp-title { color: #0d0d0c; }
+
+  .comp-desc {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .comp-panel.before .comp-desc { color: rgba(255,255,255,0.33); }
+  .comp-panel.after  .comp-desc { color: #888780; }
+
+  .comp-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .comp-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 10px;
+    border-radius: 7px;
+  }
+  .comp-chip::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .comp-panel.before .comp-chip::before { background: rgba(255,255,255,0.2); }
+  .comp-panel.after  .comp-chip::before { background: #2563EB; }
+
+  .comp-panel.before .comp-chip {
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.28);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .comp-panel.after .comp-chip {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid rgba(37,99,235,0.12);
+  }
+
+  .vs-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    padding-top: 60px;
+  }
+
+  .vs-pill {
+    background: #fff;
+    border: 1.5px solid #E8E6DF;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #888780;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .comp-tagline {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5F5E5A;
+  }
+
+  .comp-tagline strong { color: #2563EB; }
+
+  @media (max-width: 560px) {
+    .comparison-grid { grid-template-columns: 1fr; gap: 10px; }
+    .vs-col { display: none; }
+  }
+
+  /* Feature list */
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #E8E6DF;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #E8E6DF;
+  }
+
+  .feature-item:last-child { border-bottom: none; }
+
+  .feature-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: #E8E6DF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #888780;
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feature-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a18;
+    margin-bottom: 3px;
+  }
+
+  .feature-desc {
+    font-size: 13px;
+    color: #5F5E5A;
+    line-height: 1.55;
+  }
+
+  /* Capability grid */
+  .cap-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 560px) { .cap-list { grid-template-columns: 1fr; } }
+
+  .cap-item {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cap-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  .cap-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a18;
+    margin-bottom: 3px;
+  }
+
+  .cap-desc {
+    font-size: 12px;
+    color: #5F5E5A;
+    line-height: 1.5;
+  }
+
+  /* Horizon list */
+  .horizon-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0 28px;
+  }
+
+  .horizon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #2C2C2A;
+    line-height: 1.5;
+  }
+
+  .horizon-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #2563EB;
+    flex-shrink: 0;
+  }
+
+  /* Source block */
+  .source-block {
+    background: #F5F3EE;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 40px;
+  }
+
+  .source-block .source-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888780;
+    margin-bottom: 8px;
+  }
+
+  .source-block p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #5F5E5A;
+  }
+
+  @media (max-width: 480px) {
+    .article-container { padding: 28px 16px 60px; }
+    .body-text { font-size: 16px; }
+    .dek { font-size: 16px; }
+    .pullquote { font-size: 17px; padding-left: 16px; }
+    .comparison-wrap { padding: 20px 14px 16px; }
+  }
+</style>
+
+<div class="article-container">
+
+  <h1>Introducing Sherpa</h1>
+
+  <p class="body-text">There are a million variables to think about when you work for yourself. How much have I made this week after expenses? Have I tracked all my miles? Is that expense deductible? What's happening in my city this week? When should I work and how much will I make?</p>
+
+  <p class="body-text">These are the questions every gig worker and solopreneur carries in their head — questions that used to go unanswered. Now, you have Sherpa.</p>
+
+  <p class="body-text"><strong>Sherpa is the first AI built for Gig Workers &amp; Solopreneurs</strong> — combining real-time market intelligence from billions of dollars of gig earnings with your specific professional picture to give you answers, not just data. Ask Sherpa what job to work, how much you'll earn, what you made after expenses, what your projected taxes are and more. Then get back to doing what you do best.</p>
+
+  <p class="section-label">Leveling the playing field</p>
+
+  <p class="body-text">For too long, independent contractors have been operating without the tools and data they need. Often, they're at the whim of large companies that leverage algorithms and massive data sets to optimize their marketplace and pricing. While these companies have unlocked millions of earning opportunities, they have fallen short in providing gig workers and Solopreneurs with the information they need to make better professional and financial decisions.</p>
+
+  <div class="pullquote">"No longer in the dark, alone, or left guessing about their financial picture."</div>
+
+  <p class="body-text">Sherpa is putting that data, advanced analytics and AI in the worker's hands. They have a guide that operates with the same level of intelligence that the marketplaces do.</p>
+
+  <div class="comparison-wrap">
+    <div class="comparison-eyebrow">Before Sherpa vs. With Sherpa</div>
+    <div class="comparison-grid">
+
+      <div class="comp-panel before">
+        <div class="comp-panel-label">Before Sherpa</div>
+        <div class="comp-photo">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=120&q=75&fit=crop&crop=center" alt="Platform" />
+        </div>
+        <div class="comp-title">The Platform</div>
+        <p class="comp-desc">Proprietary algorithms. Billions of data points. Full market visibility.</p>
+        <div class="comp-chips">
+          <div class="comp-chip">Full pricing intelligence</div>
+          <div class="comp-chip">Real-time demand maps</div>
+          <div class="comp-chip">Surge optimization</div>
+        </div>
+      </div>
+
+      <div class="vs-col"><div class="vs-pill">vs</div></div>
+
+      <div class="comp-panel after">
+        <div class="comp-panel-label">With Sherpa</div>
+        <div class="comp-photo">
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=120&q=75&fit=crop&crop=faces" alt="Worker" onerror="this.src='https://images.unsplash.com/photo-1512314889357-e157c22f938d?w=120&q=75&fit=crop'" />
+        </div>
+        <div class="comp-title">The Worker</div>
+        <p class="comp-desc">Now powered by the same level of intelligence. Your guide in the dark.</p>
+        <div class="comp-chips">
+          <div class="comp-chip">Market earnings data</div>
+          <div class="comp-chip">Demand in your city</div>
+          <div class="comp-chip">Personalized guidance</div>
+        </div>
+      </div>
+
+    </div>
+    <p class="comp-tagline"><strong>Sherpa</strong> puts platform-level intelligence in your hands →</p>
+  </div>
+
+  <hr class="section-divider">
+
+  <p class="section-label">Billions of dollars of earnings intelligence, working for you</p>
+
+  <p class="body-text">Sherpa doesn't just know you — it's powered by the broader marketplace. Built on top of Solo's growing dataset of $6B of gig worker &amp; solopreneur earnings across rideshare, delivery, home services, and more, Sherpa can tell you things no generic AI tool ever could.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-label">Earnings data powering Sherpa</div>
+      <div class="stat-value">$6B+</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Platforms tracked</div>
+      <div class="stat-value">Rideshare, delivery, home services &amp; more</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Intelligence type</div>
+      <div class="stat-value">Real-time + historical</div>
+    </div>
+  </div>
+
+  <div class="feature-list">
+    <div class="feature-item">
+      <div class="feature-icon">01</div>
+      <div>
+        <div class="feature-title">What platforms are trending up in your market</div>
+        <div class="feature-desc">See which apps are paying out more this week based on real earnings from workers like you.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">02</div>
+      <div>
+        <div class="feature-title">When demand peaks — and when it drops</div>
+        <div class="feature-desc">Sherpa sees demand patterns in your specific line of work so you can time your shifts better.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">03</div>
+      <div>
+        <div class="feature-title">How your earnings compare to solopreneurs doing similar work</div>
+        <div class="feature-desc">Benchmark against real workers in the current market — not outdated averages.</div>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">04</div>
+      <div>
+        <div class="feature-title">What real workers are taking home right now</div>
+        <div class="feature-desc">This is the kind of intelligence that used to live only inside the heads of the most experienced gig workers. Now it lives in Sherpa.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <p class="section-label">Real-time, across every vertical</p>
+
+  <p class="body-text">Whether you're driving, delivering, cleaning, repairing, or building something on your own — Sherpa is designed for the full breadth of the modern Solopreneur economy.</p>
+
+  <p class="body-text">Real-time event data coupled with years of historical trends across business verticals means you're seeing the market as it is right now and where it's going. Big game this weekend? A surge in local deliveries? A shift in platform incentives? Sherpa sees it — and more importantly, it tells you what it means for <em>you and your schedule</em>.</p>
+
+  <hr class="section-divider">
+
+  <p class="section-label">The most important data point is always you</p>
+
+  <p class="body-text">All of this market intelligence is just the starting point. What makes Sherpa genuinely powerful is that it brings together your professional picture in one place. Your earnings history, your expenses, your miles, your documents, your tax estimates, your goals now talk together and can be accessed with a simple question.</p>
+
+  <p class="body-text">The result isn't a generic recommendation for the average gig worker. It's advice that's calibrated to your patterns and preferences.</p>
+
+  <div class="cap-list">
+    <div class="cap-item">
+      <div class="cap-icon">💵</div>
+      <div>
+        <div class="cap-title">Earn more</div>
+        <div class="cap-desc">Identifying the highest-value opportunities in your market to make the most of your time or hit an earnings goal.</div>
+      </div>
+    </div>
+    <div class="cap-item">
+      <div class="cap-icon">🧾</div>
+      <div>
+        <div class="cap-title">Keep more</div>
+        <div class="cap-desc">Surfacing &amp; classifying deductions, tracking work miles, providing tax estimates, and identifying financial gaps before they become surprises.</div>
+      </div>
+    </div>
+    <div class="cap-item">
+      <div class="cap-icon">😌</div>
+      <div>
+        <div class="cap-title">Stress less</div>
+        <div class="cap-desc">Giving you confident guidance and answering the questions that used to keep you up at night.</div>
+      </div>
+    </div>
+    <div class="cap-item">
+      <div class="cap-icon">🎯</div>
+      <div>
+        <div class="cap-title">Always personal</div>
+        <div class="cap-desc">Every answer calibrated to your specific patterns, platforms, and goals — not generic advice for the average worker.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <p class="section-label">What's next</p>
+
+  <p class="body-text">In the future, Sherpa will increasingly become a more active, personalized agent that guides you through your professional and financial life — all built on a massive, three-dimensional data platform that includes market rates, shift schedules, open roles, job prices, geographic data, and more.</p>
+
+  <div class="horizon-list">
+    <div class="horizon-item"><span class="horizon-dot"></span>Adding job opportunities for you</div>
+    <div class="horizon-item"><span class="horizon-dot"></span>Creating a schedule that meets your budget needs</div>
+    <div class="horizon-item"><span class="horizon-dot"></span>Securing the best auto loans and insurance</div>
+    <div class="horizon-item"><span class="horizon-dot"></span>Preparing your taxes</div>
+  </div>
+
+  <hr class="section-divider">
+
+  <p class="section-label">This is what we mean by the Year of the Solopreneur</p>
+
+  <p class="body-text">When we set out to make 2026 the Year of the Solopreneur, this is what we had in mind. Not just better tools — smarter ones. Ones that meet you where you are, understand what you're working toward, and help you get there faster.</p>
+
+  <p class="body-text">Sherpa is available now inside the Solo app. Open it up, ask it anything, and let it get to work for you.</p>
+
+  <div class="pullquote">"You've got enough to think about. Let Sherpa think about the rest."</div>
+
+  <p class="body-text" style="margin-top: 28px;">— Bryce Bennett, Founder &amp; CEO, Solo</p>
+
+  <div class="source-block">
+    <div class="source-label">About Sherpa</div>
+    <p>Sherpa is the AI copilot inside Solo, built on $6B+ of gig worker and solopreneur earnings data across rideshare, delivery, home services, and more. Available now in the <strong>Solo app</strong> on iOS and Android.</p>
+  </div>
+
+</div>
